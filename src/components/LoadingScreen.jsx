@@ -1,5 +1,7 @@
-export default function LoadingScreen({ handleChangeScreen }) {
+export default function LoadingScreen({ handleChangeScreen, mode }) {
   return (
-    <h1>Loading..</h1>
-  )
+    <>
+      <h1>Loading..</h1>
+    </>
+  );
 }
