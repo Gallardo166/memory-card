@@ -2,13 +2,15 @@ import { useState } from "react";
 import StartScreen from "./components/StartScreen";
 import LoadingScreen from "./components/LoadingScreen";
 import GameScreen from "./components/GameScreen";
+import CustomScreen from "./components/CustomScreen";
 import "./App.css";
 
 function App() {
   const [screen, setScreen] = useState("start");
   const [mode, setMode] = useState(null);
   const [pokemonList, setPokemonList] = useState(null);
-  const [highScores, setHighScores] = useState({easy: 0, medium: 0, hard: 0, custom: 0})
+  const [highScores, setHighScores] = useState({easy: 0, medium: 0, hard: 0, custom: 0});
+  const [timer, setTimer] = useState(999);
 
   function handleChangeScreen(targetScreen) {
     setScreen(targetScreen);
@@ -31,6 +33,10 @@ function App() {
     setHighScores(newHighScores);
   }
 
+  function handleChangeTimer(time) {
+    setTimer(time);
+  }
+
   return (
     <>
       {screen === "start" ? (
@@ -49,9 +55,17 @@ function App() {
           handleChangeScreen={handleChangeScreen}
           handleChangeHighScore={handleChangeHighScore}
           mode={mode}
+          timer={timer}
           highScore={highScores[mode]}
           initialPokemonList={pokemonList}
         ></GameScreen>
+      ) : null}
+      {screen === "custom" ? (
+        <CustomScreen
+          handleChangeScreen={handleChangeScreen}
+          handleChangePokemonList={handleChangePokemonList}
+          handleChangeTimer={handleChangeTimer}
+        ></CustomScreen>
       ) : null}
     </>
   );

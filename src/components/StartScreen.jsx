@@ -47,11 +47,8 @@ export default function StartScreen({
       <p>Highscore: {highScores.hard}</p>
       <button
         onClick={async () => {
-          handleChangeScreen("loading");
+          handleChangeScreen("custom");
           handleChangeMode("custom");
-          const pokemonList = await fetchPokemon(20);
-          handleChangePokemonList(pokemonList);
-          handleChangeScreen("game");
         }}
       >
         Custom

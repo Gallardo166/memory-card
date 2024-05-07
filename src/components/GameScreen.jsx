@@ -1,10 +1,12 @@
 import { useState } from "react";
 import shuffle from "../shuffle";
+import Timer from "./Timer";
 
 export default function GameScreen({
   handleChangeScreen,
   handleChangeHighScore,
   mode,
+  timer,
   highScore,
   initialPokemonList,
 }) {
@@ -31,6 +33,15 @@ export default function GameScreen({
     <>
       <h1>{mode}</h1>
       <h2>{score}</h2>
+      {timer !== 999 ? (
+        <Timer
+          startTime={timer}
+          handleChangeStatus={handleChangeStatus}
+        ></Timer>
+      ) : null}
+      {status === "playing" ? (
+        <button onClick={() => handleChangeScreen("start")}>Back</button>
+      ) : null}
       {pokemonList.map((pokemon) => (
         <button
           key={pokemon.id}
@@ -41,10 +52,10 @@ export default function GameScreen({
                 handleChangeClickedIds(pokemon.id);
               } else {
                 handleChangeClickedIds(pokemon.id);
-                handleChangeStatus("win");
+                setStatus("win");
               }
             } else {
-              handleChangeStatus("lose");
+              setStatus("lose");
             }
           }}
         >
