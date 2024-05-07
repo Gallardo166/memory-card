@@ -30,7 +30,7 @@ export default function CustomScreen({ handleChangeScreen, handleChangePokemonLi
           <option value="100">100s</option>
           <option value="80">80s</option>
           <option value="60">60s</option>
-          <option value="45">45s</option>
+          <option value="15">45s</option>
         </select>
       </form>
       <button

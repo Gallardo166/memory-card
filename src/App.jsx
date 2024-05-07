@@ -54,6 +54,8 @@ function App() {
         <GameScreen
           handleChangeScreen={handleChangeScreen}
           handleChangeHighScore={handleChangeHighScore}
+          handleChangeTimer={handleChangeTimer}
+          handleChangePokemonList={handleChangePokemonList}
           mode={mode}
           timer={timer}
           highScore={highScores[mode]}
