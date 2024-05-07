@@ -41,7 +41,7 @@ function App() {
         <GameScreen
           handleChangeScreen={handleChangeScreen}
           mode={mode}
-          pokemonList={pokemonList}
+          initialPokemonList={pokemonList}
         ></GameScreen>
       ) : null}
     </>
