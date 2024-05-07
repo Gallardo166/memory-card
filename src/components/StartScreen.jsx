@@ -4,6 +4,7 @@ export default function StartScreen({
   handleChangeScreen,
   handleChangeMode,
   handleChangePokemonList,
+  highScores
 }) {
   return (
     <div className="start-screen">
@@ -19,6 +20,7 @@ export default function StartScreen({
       >
         Easy
       </button>
+      <p>Highscore: {highScores.easy}</p>
       <button
         onClick={async () => {
           handleChangeScreen("loading");
@@ -30,6 +32,7 @@ export default function StartScreen({
       >
         Medium
       </button>
+      <p>Highscore: {highScores.medium}</p>
       <button
         onClick={async () => {
           handleChangeScreen("loading");
@@ -41,6 +44,7 @@ export default function StartScreen({
       >
         Hard
       </button>
+      <p>Highscore: {highScores.hard}</p>
       <button
         onClick={async () => {
           handleChangeScreen("loading");
@@ -52,6 +56,7 @@ export default function StartScreen({
       >
         Custom
       </button>
+      <p>Highscore: {highScores.custom}</p>
     </div>
   );
 }

@@ -8,6 +8,7 @@ function App() {
   const [screen, setScreen] = useState("start");
   const [mode, setMode] = useState(null);
   const [pokemonList, setPokemonList] = useState(null);
+  const [highScores, setHighScores] = useState({easy: 0, medium: 0, hard: 0, custom: 0})
 
   function handleChangeScreen(targetScreen) {
     setScreen(targetScreen);
@@ -25,6 +26,11 @@ function App() {
     setPokemonList(newList);
   }
 
+  function handleChangeHighScore(mode, score) {
+    const newHighScores = {...highScores, [mode]: score};
+    setHighScores(newHighScores);
+  }
+
   return (
     <>
       {screen === "start" ? (
@@ -32,6 +38,7 @@ function App() {
           handleChangeScreen={handleChangeScreen}
           handleChangeMode={handleChangeMode}
           handleChangePokemonList={handleChangePokemonList}
+          highScores={highScores}
         ></StartScreen>
       ) : null}
       {screen === "loading" ? (
@@ -40,7 +47,9 @@ function App() {
       {screen === "game" ? (
         <GameScreen
           handleChangeScreen={handleChangeScreen}
+          handleChangeHighScore={handleChangeHighScore}
           mode={mode}
+          highScore={highScores[mode]}
           initialPokemonList={pokemonList}
         ></GameScreen>
       ) : null}
