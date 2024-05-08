@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { saveProgress } from "../localStorage";
 import shuffle from "../shuffle";
 import Timer from "./Timer";
 import fetchPokemon from "../fetch";
@@ -58,8 +59,8 @@ export default function GameScreen({
                 handleChangeClickedIds(pokemon.id);
                 dialog.showModal();
                 setStatus("win");
-                if (score > highScore) {
-                  handleChangeHighScore(mode, score);
+                if (score + 1 > highScore) {
+                  handleChangeHighScore(mode, score + 1);
                 }
               }
             } else {

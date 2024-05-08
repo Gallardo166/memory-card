@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { saveProgress, getProgress, clearProgress } from "./localStorage";
 import StartScreen from "./components/StartScreen";
 import LoadingScreen from "./components/LoadingScreen";
 import GameScreen from "./components/GameScreen";
@@ -9,7 +10,7 @@ function App() {
   const [screen, setScreen] = useState("start");
   const [mode, setMode] = useState(null);
   const [pokemonList, setPokemonList] = useState(null);
-  const [highScores, setHighScores] = useState({easy: 0, medium: 0, hard: 0, custom: 0});
+  const [highScores, setHighScores] = useState(getProgress());
   const [timer, setTimer] = useState(999);
 
   function handleChangeScreen(targetScreen) {
@@ -29,7 +30,13 @@ function App() {
   }
 
   function handleChangeHighScore(mode, score) {
+    if (arguments.length === 0) {
+      clearProgress();
+      setHighScores(getProgress());
+      return;
+    }
     const newHighScores = {...highScores, [mode]: score};
+    saveProgress(newHighScores);
     setHighScores(newHighScores);
   }
 
@@ -44,6 +51,7 @@ function App() {
           handleChangeScreen={handleChangeScreen}
           handleChangeMode={handleChangeMode}
           handleChangePokemonList={handleChangePokemonList}
+          handleChangeHighScore={handleChangeHighScore}
           highScores={highScores}
         ></StartScreen>
       ) : null}

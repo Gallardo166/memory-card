@@ -4,7 +4,8 @@ export default function StartScreen({
   handleChangeScreen,
   handleChangeMode,
   handleChangePokemonList,
-  highScores
+  handleChangeHighScore,
+  highScores,
 }) {
   return (
     <div className="start-screen">
@@ -54,6 +55,34 @@ export default function StartScreen({
         Custom
       </button>
       <p>Highscore: {highScores.custom}</p>
+      <dialog>
+        <p>Are you sure you want to delete your progress?</p>
+        <button
+          onClick={() => {
+            const dialog = document.querySelector("dialog");
+            dialog.close();
+          }}
+        >
+          No
+        </button>
+        <button
+          onClick={() => {
+            const dialog = document.querySelector("dialog");
+            handleChangeHighScore();
+            dialog.close();
+          }}
+        >
+          Yes
+        </button>
+      </dialog>
+      <button
+        onClick={() => {
+          const dialog = document.querySelector("dialog");
+          dialog.showModal();
+        }}
+      >
+        Clear progress
+      </button>
     </div>
   );
 }
