@@ -84,6 +84,7 @@ button.clear-progress {
 
 .start-screen dialog {
   width: 70vw;
+  max-width: 400px;
   border: none;
   box-shadow: 8px 8px 24px rgb(26, 25, 25);
   background-color: rgb(77, 75, 75);
