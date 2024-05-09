@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { saveProgress } from "../localStorage";
 import shuffle from "../shuffle";
 import Timer from "./Timer";
 import fetchPokemon from "../fetch";
+import "../styles/GameScreen.css";
 
 export default function GameScreen({
   handleChangeScreen,
@@ -18,7 +18,6 @@ export default function GameScreen({
   const [clickedIds, setClickedIds] = useState([]);
   const [status, setStatus] = useState("playing");
   const score = clickedIds.length;
-  const dialog = document.querySelector("dialog");
 
   function handleShufflePokemonList() {
     const newList = [...shuffle(pokemonList)];
@@ -26,6 +25,10 @@ export default function GameScreen({
   }
 
   function handleChangeClickedIds(newId) {
+    if (arguments.length === 0) {
+      setClickedIds([]);
+      return;
+    }
     const newClickedIds = [...clickedIds, newId];
     setClickedIds(newClickedIds);
   }
@@ -35,48 +38,68 @@ export default function GameScreen({
   }
 
   return (
-    <>
-      <h1>{mode}</h1>
-      <h2>{score}</h2>
-      {timer !== 999 ? (
-        <Timer
-          startTime={timer}
-          handleChangeStatus={handleChangeStatus}
-        ></Timer>
-      ) : null}
-      {status === "playing" ? (
-        <button onClick={() => handleChangeScreen("start")}>Back</button>
-      ) : null}
-      {pokemonList.map((pokemon) => (
-        <button
-          key={pokemon.id}
-          onClick={() => {
-            if (clickedIds.filter((id) => id === pokemon.id).length === 0) {
-              if (score < pokemonList.length - 1) {
-                handleShufflePokemonList();
-                handleChangeClickedIds(pokemon.id);
+    <div className="game-screen">
+      <div className="game-header">
+        <div className="left">
+          <h1>{mode}</h1>
+          <h1>{score}</h1>
+        </div>
+        <div className="right">
+          {timer !== 999 && status === "playing" ? (
+            <Timer
+              startTime={timer}
+              handleChangeStatus={handleChangeStatus}
+              handleChangeClickedIds={handleChangeClickedIds}
+            ></Timer>
+          ) : null}
+          {status === "playing" ? (
+            <button
+              onClick={() => {
+                const quitGameDialog = document.querySelector(".quit-game");
+                quitGameDialog.showModal();
+              }}
+            >
+              Back
+            </button>
+          ) : null}
+        </div>
+      </div>
+      <div className="instructions">Click each pokemon once!</div>
+      <div className={`cards-${mode.toLowerCase()}`}>
+        {pokemonList.map((pokemon) => (
+          <button
+            className="card"
+            key={pokemon.id}
+            onClick={() => {
+              if (clickedIds.filter((id) => id === pokemon.id).length === 0) {
+                if (score < pokemonList.length - 1) {
+                  handleShufflePokemonList();
+                  handleChangeClickedIds(pokemon.id);
+                } else {
+                  const gameOverDialog = document.querySelector(".game-over");
+                  handleChangeClickedIds(pokemon.id);
+                  gameOverDialog.showModal();
+                  setStatus("win");
+                  if (score + 1 > highScore) {
+                    handleChangeHighScore(mode, score + 1);
+                  }
+                }
               } else {
-                handleChangeClickedIds(pokemon.id);
-                dialog.showModal();
-                setStatus("win");
-                if (score + 1 > highScore) {
-                  handleChangeHighScore(mode, score + 1);
+                const gameOverDialog = document.querySelector(".game-over");
+                gameOverDialog.showModal();
+                setStatus("lose");
+                if (score > highScore) {
+                  handleChangeHighScore(mode, score);
                 }
               }
-            } else {
-              dialog.showModal();
-              setStatus("lose");
-              if (score > highScore) {
-                handleChangeHighScore(mode, score);
-              }
-            }
-          }}
-        >
-          <img src={pokemon.imageUrl} />
-          <h3>{pokemon.name}</h3>
-        </button>
-      ))}
-      <dialog>
+            }}
+          >
+            <img src={pokemon.imageUrl} />
+            <h3>{pokemon.name}</h3>
+          </button>
+        ))}
+      </div>
+      <dialog className="game-over">
         <p>Score: {score}</p>
         <p>Best: {score > highScore ? score : highScore}</p>
         {status === "win" ? <p>You win!</p> : null}
@@ -91,7 +114,9 @@ export default function GameScreen({
                 );
                 handleChangePokemonList(pokemonList);
                 handleChangeScreen("game");
-                if (mode === 'custom') {handleChangeTimer(timer)}
+                if (mode === "custom") {
+                  handleChangeTimer(timer);
+                }
               }}
             >
               Play again
@@ -108,6 +133,24 @@ export default function GameScreen({
           </button>
         ) : null}
       </dialog>
-    </>
+      <dialog className="quit-game">
+        <p>Are you sure you want to quit?</p>
+        <button
+          onClick={() => {
+            const quitGameDialog = document.querySelector(".quit-game");
+            quitGameDialog.close();
+          }}
+        >
+          No
+        </button>
+        <button
+          onClick={() => {
+            handleChangeScreen("start");
+          }}
+        >
+          Yes
+        </button>
+      </dialog>
+    </div>
   );
 }

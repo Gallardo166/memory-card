@@ -35,7 +35,7 @@ function App() {
       setHighScores(getProgress());
       return;
     }
-    const newHighScores = {...highScores, [mode]: score};
+    const newHighScores = {...highScores, [mode.toLowerCase()]: score};
     saveProgress(newHighScores);
     setHighScores(newHighScores);
   }
@@ -50,6 +50,7 @@ function App() {
         <StartScreen
           handleChangeScreen={handleChangeScreen}
           handleChangeMode={handleChangeMode}
+          handleChangeTimer={handleChangeTimer}
           handleChangePokemonList={handleChangePokemonList}
           handleChangeHighScore={handleChangeHighScore}
           highScores={highScores}
@@ -66,7 +67,7 @@ function App() {
           handleChangePokemonList={handleChangePokemonList}
           mode={mode}
           timer={timer}
-          highScore={highScores[mode]}
+          highScore={highScores[mode.toLowerCase()]}
           initialPokemonList={pokemonList}
         ></GameScreen>
       ) : null}

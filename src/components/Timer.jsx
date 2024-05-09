@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function Timer({ handleChangeStatus, startTime }) {
+export default function Timer({ handleChangeStatus, handleChangeClickedIds, startTime }) {
   const [time, setTime] = useState(startTime);
   const dialog = document.querySelector("dialog");
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (time === 0) {
+        handleChangeClickedIds();
         handleChangeStatus("lose");
         dialog.showModal();
         return
@@ -19,5 +20,5 @@ export default function Timer({ handleChangeStatus, startTime }) {
     };
   }, [time]);
 
-  return <div className="timer">{time}</div>;
+  return <p className="timer">{time}</p>;
 }
