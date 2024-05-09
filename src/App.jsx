@@ -4,7 +4,6 @@ import StartScreen from "./components/StartScreen";
 import LoadingScreen from "./components/LoadingScreen";
 import GameScreen from "./components/GameScreen";
 import CustomScreen from "./components/CustomScreen";
-import "./App.css";
 
 function App() {
   const [screen, setScreen] = useState("start");
